@@ -18,6 +18,8 @@ async def buy(symbol: str, quantity: int, ctx: AgentContext) -> str:
 
     fill_price = ctx.prices.get_price(symbol)
     if fill_price is None:
+        fill_price = await ctx.prices.fetch_one(symbol)
+    if fill_price is None:
         return f"Error: no current price available for {symbol.upper()}"
 
     try:
@@ -50,6 +52,8 @@ async def sell(symbol: str, quantity: int, ctx: AgentContext) -> str:
         await ctx.prices.wait_until_ready()
 
     fill_price = ctx.prices.get_price(symbol)
+    if fill_price is None:
+        fill_price = await ctx.prices.fetch_one(symbol)
     if fill_price is None:
         return f"Error: no current price available for {symbol.upper()}"
 

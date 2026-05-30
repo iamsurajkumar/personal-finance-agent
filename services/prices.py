@@ -24,6 +24,19 @@ class PriceService:
         """Get cached price for a symbol."""
         return self._prices.get(symbol.upper())
 
+    async def fetch_one(self, symbol: str) -> Optional[float]:
+        """Fetch and cache a single symbol's price on demand.
+
+        Returns the price if successful, None otherwise.
+        """
+        symbol = symbol.upper()
+        if symbol in self._prices:
+            return self._prices[symbol]
+
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, self._fetch_prices_sync, [symbol])
+        return self._prices.get(symbol)
+
     def get_all_prices(self) -> dict[str, float]:
         """Get all cached prices."""
         return self._prices.copy()
