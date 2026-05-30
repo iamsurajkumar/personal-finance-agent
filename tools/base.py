@@ -1,6 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from services.data import DataService
 from services.prices import PriceService
+from services.order import OrderService
+from services.news import NewsService
 
 
 @dataclass
@@ -9,6 +11,8 @@ class AgentContext:
 
     portfolio: DataService
     prices: PriceService
+    orders: OrderService = field(default_factory=OrderService)
+    news: NewsService | None = None
 
     async def ensure_prices_ready(self) -> str | None:
         """
