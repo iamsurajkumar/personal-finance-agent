@@ -26,3 +26,4 @@ Thumbs.db
 # Project specific
 *.csv
 !sample_portfolio.csv
+order_history.json

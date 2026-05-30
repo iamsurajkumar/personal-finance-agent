@@ -72,7 +72,7 @@ class DataService:
             self._df.at[idx, "quantity"] = new_qty
             self._df.at[idx, "cost_basis"] = round(new_cost, 4)
         else:
-            today = date.today().strftime("%Y-%m-%d")
+            today = pd.Timestamp(date.today())
             new_row = pd.DataFrame([{
                 "symbol": symbol,
                 "quantity": quantity,

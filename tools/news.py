@@ -26,13 +26,18 @@ async def get_portfolio_news(symbol: str | None, ctx: AgentContext) -> str:
 
     articles = await ctx.news.fetch_news(symbols)
 
-    # Handle error messages from the service
-    if articles and ("error" in articles[0] or "message" in articles[0]):
-        msg = articles[0].get("error") or articles[0].get("message")
-        return f"News unavailable: {msg}"
+    # Separate real articles from service messages/errors
+    real = [a for a in articles if "title" in a and not ("error" in a or "message" in a)]
+    problems = [a.get("error") or a.get("message") for a in articles if "error" in a or "message" in a]
 
-    if not articles:
+    if not real and not problems:
         return "No recent news found for your portfolio holdings."
+
+    if not real and problems:
+        return f"News unavailable: {problems[0]}"
+
+    # If we have real articles, use those (ignore partial batch failures)
+    articles = real
 
     lines = [f"📰 Portfolio News ({len(articles)} articles):", ""]
     for a in articles:

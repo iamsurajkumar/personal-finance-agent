@@ -44,7 +44,7 @@ def init_services() -> AgentContext:
     symbols = ds.get_symbols()
     asyncio.run(ps.fetch_prices(symbols))
 
-    osrv = OrderService()
+    osrv = OrderService(Config.ORDER_HISTORY_PATH)
     ns = NewsService(Config.ALPHA_VANTAGE_API_KEY) if Config.ALPHA_VANTAGE_API_KEY else None
 
     return AgentContext(portfolio=ds, prices=ps, orders=osrv, news=ns)
@@ -219,6 +219,12 @@ elif page == "📋 Positions":
             price_str = "N/A"
             value_str = "N/A"
 
+        pd_val = row["purchase_date"]
+        if hasattr(pd_val, "strftime"):
+            purchase_date = pd_val.strftime("%Y-%m-%d")
+        else:
+            purchase_date = str(pd_val)[:10]
+
         rows.append({
             "Symbol": symbol,
             "Shares": qty,
@@ -227,7 +233,7 @@ elif page == "📋 Positions":
             "Invested": format_currency(invested),
             "Current Value": value_str,
             "Gain / Loss": gl_str,
-            "Purchase Date": row["purchase_date"].strftime("%Y-%m-%d"),
+            "Purchase Date": purchase_date,
         })
 
     st.dataframe(

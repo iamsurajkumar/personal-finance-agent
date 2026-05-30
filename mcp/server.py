@@ -216,7 +216,7 @@ async def initialize() -> None:
     # Initialize services
     portfolio_service = DataService(Config.PORTFOLIO_CSV_PATH)
     price_service = PriceService()
-    order_service = OrderService()
+    order_service = OrderService(Config.ORDER_HISTORY_PATH)
     news_service = NewsService(Config.ALPHA_VANTAGE_API_KEY) if Config.ALPHA_VANTAGE_API_KEY else None
 
     # Load portfolio data
