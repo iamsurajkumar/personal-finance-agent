@@ -1,7 +1,34 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(gh api *)",
+      "Bash(venv/bin/python mcp/server_http.py)",
+      "Bash(curl -s http://localhost:8001/mcp -o /dev/null -w \"%{http_code}\")",
+      "Bash(kill %1)",
+      "Bash(curl -s -X POST http://localhost:8001/mcp -H 'Content-Type: application/json' -H 'Accept: application/json, text/event-stream' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2024-11-05\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"1.0\"}}}')",
+      "Bash(pkill -f \"server_http.py\")",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch",
+      "WebFetch(domain:rasa.com)",
+      "WebFetch(domain:docs.litellm.ai)",
+      "WebFetch(domain:forum.rasa.com)",
+      "Bash(gh search *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(i['path'], i.get\\('text_matches',''\\)\\) for i in d.get\\('items',[]\\)]\")",
+      "Bash(uv --version)",
+      "Bash(curl *)",
+      "Bash(python3 -m json.tool)",
+      "Bash(lsof -i :5005,5055,8000,8001,8080 -sTCP:LISTEN)",
+      "Bash(awk '{print $2, $9}')",
+      "Bash(python3 -c ' *)",
+      "Bash(gh auth *)",
+      "Bash(grep -E \"model|\\\\.data|\\\\.db\" .gitignore)",
+      "Bash(grep -E \"model|\\\\.data|\\\\.db\" starter/.gitignore)",
+      "Bash(gh repo *)",
+      "Bash(git commit *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)"
     ]
   }
 }
