@@ -7,6 +7,8 @@ from .portfolio import (
     get_largest_position,
     list_all_holdings,
 )
+from .trade import buy, sell, check_order_status
+from .news import get_portfolio_news
 
 __all__ = [
     "AgentContext",
@@ -16,4 +18,8 @@ __all__ = [
     "get_total_gain_loss",
     "get_largest_position",
     "list_all_holdings",
+    "buy",
+    "sell",
+    "check_order_status",
+    "get_portfolio_news",
 ]
